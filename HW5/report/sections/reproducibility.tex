@@ -1,0 +1,26 @@
+\section*{實驗限制與補充說明}
+\vspace{-0.5em}
+
+\noindent\textbf{實驗限制。}
+本次實驗使用固定的訓練集與測試集切分，並僅針對題目指定的超參數範圍進行比較。因此，實驗結果可能受到資料切分及參數設定影響，尚不足以代表各分類器在所有情況下的表現。
+
+\medskip
+\noindent\textbf{程式碼與重現方法。}
+本作業使用 Python 與 scikit-learn 進行實驗，完整程式碼及相關檔案可由以下連結取得：
+
+\begin{quote}
+\url{https://github.com/potato-yen/data_mining_HW/blob/main/HW5/src/hw5_experiments.py}
+\end{quote}
+
+下載專案並安裝所需依賴後，可於專案根目錄執行以下指令，重新產生實驗結果及 Part 1 操作記錄單：
+
+\begin{verbatim}
+uv run python src/hw5_experiments.py
+uv run python src/build_part1_record.py
+\end{verbatim}
+
+實驗採用固定隨機種子（\texttt{random\_state=42}），並使用相同的資料切分與評估流程，以確保結果可重現。
+
+\medskip
+\noindent\textbf{Generative AI 使用說明。}
+本作業使用 OpenAI Codex 輔助程式實作、實驗流程整理及報告文字編修。實驗數據均由程式實際執行產生，並透過輸出紀錄、圖表與測試結果檢查其一致性。

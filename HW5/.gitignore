@@ -1,0 +1,54 @@
+# Agent instructions and working notes
+AGENTS.md
+job.md
+.agents/
+.codex/
+.superpowers/
+docs/superpowers/
+
+# Local environments, caches and temporary files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.uv-cache/
+tmp/
+.DS_Store
+._*
+~$*
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# LaTeX intermediates; final PDFs remain tracked
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Project-local fonts and TeX package copies
+*.ttf
+*.otf
+*.ttc
+*.woff
+*.woff2
+texmf/

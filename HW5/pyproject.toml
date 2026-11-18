@@ -1,0 +1,17 @@
+[project]
+name = "hw5"
+version = "0.1.0"
+description = "Reproducible experiments for HW5 classifier comparison"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "pandas>=3.0.6",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+]
+
+[dependency-groups]
+dev = [
+    "pypdf>=6.20.1",
+]

@@ -1,0 +1,158 @@
+{
+  "python": "3.12.13",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "random_state": 42,
+  "test_size": 0.2,
+  "stratified": true,
+  "cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+  "cv_scoring": "f1_macro",
+  "cv_std_ddof": 0,
+  "split_hashes": {
+    "dataset_a": "c198462d2b35bf675ed026ef24d7d71f5024cdc27f7458974c4a802406c5690c",
+    "dataset_b": "4998414c45bde25f2506f80f1f5e3d78a96e4006090dc55621b9892bb30a98b2"
+  },
+  "dataset_b_parameter_rule": "Part 2 baseline parameters; scaling only for kNN and SVM",
+  "digits_best_confusion_matrix": {
+    "classifier": "SVM",
+    "labels": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "matrix": [
+      [
+        36,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        35,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        35,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        37,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        35,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        37,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        35,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        32,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        0,
+        33
+      ]
+    ],
+    "total": 360
+  }
+}

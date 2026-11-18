@@ -1,0 +1,6 @@
+rank,classifier,setting,accuracy,macro_f1
+1,SVM,"StandardScaler; RBF, C=1.0",0.975,0.9748467821381158
+2,kNN,StandardScaler; n_neighbors=5,0.9638888888888889,0.9634399725952825
+3,Random Forest,"raw; n_estimators=200, random_state=42",0.9638888888888889,0.9633911447922225
+4,Decision Tree,raw; DecisionTreeClassifier(random_state=42),0.8222222222222222,0.8208562257533675
+5,Gaussian NB,raw; GaussianNB(),0.8111111111111111,0.8137147619384517

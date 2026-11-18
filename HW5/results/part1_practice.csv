@@ -1,0 +1,13 @@
+classifier,setting,accuracy,macro_f1
+KNeighborsClassifier,"n_neighbors=3, StandardScaler",0.9824561403508771,0.9809555629802873
+KNeighborsClassifier,"n_neighbors=15, StandardScaler",0.9736842105263158,0.9712773998488284
+GaussianNB,var_smoothing=1e-9,0.9385964912280702,0.933693394266722
+GaussianNB,var_smoothing=1e-7,0.9210526315789473,0.912836632401665
+DecisionTreeClassifier,"max_depth=3, random_state=42",0.9385964912280702,0.933693394266722
+DecisionTreeClassifier,"max_depth=None, random_state=42",0.9122807017543859,0.9074675324675325
+SVC,"C=0.1, kernel=rbf, StandardScaler",0.9473684210526315,0.942866688940862
+SVC,"C=10, kernel=rbf, StandardScaler",0.9736842105263158,0.9718634306869601
+RandomForestClassifier,"n_estimators=50, random_state=42",0.956140350877193,0.9526381387619444
+RandomForestClassifier,"n_estimators=200, random_state=42",0.956140350877193,0.9526381387619444
+MLPClassifier,"hidden_layer_sizes=(50,), solver=lbfgs, random_state=42",0.9473684210526315,0.9444805194805195
+MLPClassifier,"hidden_layer_sizes=(100, 50), solver=lbfgs, random_state=42",0.9473684210526315,0.9444805194805195

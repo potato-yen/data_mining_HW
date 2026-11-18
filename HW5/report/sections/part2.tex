@@ -1,0 +1,47 @@
+\section*{Part 2：Dataset A 原始特徵 Baseline}
+\vspace{-0.5em}
+
+\q{4}{資料摘要與尺度。}
+Breast Cancer Wisconsin 共有 569 筆、30 個連續特徵；類別為 malignant 212 筆、benign 357 筆。固定分層 80/20 切分後，訓練集 455 筆、測試集 114 筆。從下表的代表性特徵可以看出，數值尺度差距相當大：面積類特徵跨越數千，平滑度與 fractal dimension 僅約 $10^{-2}$ 至 $10^{-1}$。
+
+\begin{center}
+\compacttable
+\begin{tabular*}{0.92\linewidth}{@{\extracolsep{\fill}}lrrrlrrr}
+\toprule
+特徵 & Min & Max & Range & 特徵 & Min & Max & Range \\
+\midrule
+mean radius & 6.981 & 28.110 & 21.129 & mean area & 143.5 & 2501.0 & 2357.5 \\
+mean perimeter & 43.79 & 188.50 & 144.71 & area error & 6.802 & 542.200 & 535.398 \\
+mean smoothness & 0.0526 & 0.1634 & 0.1108 & worst area & 185.2 & 4254.0 & 4068.8 \\
+fractal dim. error & 0.0009 & 0.0298 & 0.0289 & worst concavity & 0.000 & 1.252 & 1.252 \\
+\bottomrule
+\end{tabular*}
+\end{center}
+
+\q{5}{事前假設。}
+我預期 Random Forest 會在五個分類器中表現最好，因為多棵決策樹的集成能描述非線性特徵互動，同時以平均降低單棵樹的變異。SVM 可能也有競爭力，但本題 baseline 使用未標準化的原始特徵，RBF kernel 的距離幾何可能被數值尺度較大的特徵主導，因此不一定能在 baseline 階段領先。
+
+
+\q{6}{未標準化的固定 baseline。}
+五個模型共用相同的 455 筆訓練資料與 114 筆測試資料，並直接使用原始特徵。下表整理各模型的 Accuracy 與 Macro-F1。
+
+\begin{center}
+\compacttable
+\begin{tabular*}{0.82\linewidth}{@{\extracolsep{\fill}}clllrr}
+\toprule
+排名 & 分類器 & 主要設定 & 前處理 & Accuracy & Macro-F1 \\
+\midrule
+1 & Random Forest & 200 trees, seed 42 & Raw & 0.9561 & 0.9526 \\
+2 & Gaussian NB & defaults & Raw & 0.9386 & 0.9337 \\
+3 & SVM & RBF, $C=1$ & Raw & 0.9298 & 0.9230 \\
+4 & Decision Tree & seed 42 & Raw & 0.9123 & 0.9075 \\
+5 & kNN & $k=5$ & Raw & 0.9123 & 0.9066 \\
+\bottomrule
+\end{tabular*}
+\end{center}
+
+\q{7}{排名與假設對照。}
+以 Macro-F1 為主要排名依據、Accuracy 為次要依據，Random Forest 排名第一，與事前預期一致。SVM 排名第三，也符合原始特徵尺度可能影響 RBF kernel 的推測。Decision Tree 與 kNN 的 Accuracy 都是 0.9123，但 Decision Tree 的 Macro-F1 稍高。
+
+\q{8}{不能宣稱第一名即全域最佳。}
+這次只有一組訓練與測試資料切分，還無法判斷排名會不會隨抽樣而變動；各模型也尚未經過完整的超參數比較或前處理調整。此外，解釋性與運算成本同樣會影響實際選擇。因此，Random Forest 只能算是本次原始特徵 baseline 中表現最好的模型。

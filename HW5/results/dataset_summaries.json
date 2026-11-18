@@ -1,0 +1,232 @@
+{
+  "dataset_a": {
+    "name": "Breast Cancer Wisconsin",
+    "samples": 569,
+    "features": 30,
+    "classes": [
+      "malignant",
+      "benign"
+    ],
+    "class_counts": {
+      "malignant": 212,
+      "benign": 357
+    },
+    "feature_ranges": [
+      {
+        "feature": "mean radius",
+        "min": 6.981,
+        "max": 28.11,
+        "range": 21.128999999999998
+      },
+      {
+        "feature": "mean texture",
+        "min": 9.71,
+        "max": 39.28,
+        "range": 29.57
+      },
+      {
+        "feature": "mean perimeter",
+        "min": 43.79,
+        "max": 188.5,
+        "range": 144.71
+      },
+      {
+        "feature": "mean area",
+        "min": 143.5,
+        "max": 2501.0,
+        "range": 2357.5
+      },
+      {
+        "feature": "mean smoothness",
+        "min": 0.05263,
+        "max": 0.1634,
+        "range": 0.11076999999999998
+      },
+      {
+        "feature": "mean compactness",
+        "min": 0.01938,
+        "max": 0.3454,
+        "range": 0.32602
+      },
+      {
+        "feature": "mean concavity",
+        "min": 0.0,
+        "max": 0.4268,
+        "range": 0.4268
+      },
+      {
+        "feature": "mean concave points",
+        "min": 0.0,
+        "max": 0.2012,
+        "range": 0.2012
+      },
+      {
+        "feature": "mean symmetry",
+        "min": 0.106,
+        "max": 0.304,
+        "range": 0.198
+      },
+      {
+        "feature": "mean fractal dimension",
+        "min": 0.04996,
+        "max": 0.09744,
+        "range": 0.04748
+      },
+      {
+        "feature": "radius error",
+        "min": 0.1115,
+        "max": 2.873,
+        "range": 2.7615000000000003
+      },
+      {
+        "feature": "texture error",
+        "min": 0.3602,
+        "max": 4.885,
+        "range": 4.5248
+      },
+      {
+        "feature": "perimeter error",
+        "min": 0.757,
+        "max": 21.98,
+        "range": 21.223
+      },
+      {
+        "feature": "area error",
+        "min": 6.802,
+        "max": 542.2,
+        "range": 535.398
+      },
+      {
+        "feature": "smoothness error",
+        "min": 0.001713,
+        "max": 0.03113,
+        "range": 0.029417000000000002
+      },
+      {
+        "feature": "compactness error",
+        "min": 0.002252,
+        "max": 0.1354,
+        "range": 0.133148
+      },
+      {
+        "feature": "concavity error",
+        "min": 0.0,
+        "max": 0.396,
+        "range": 0.396
+      },
+      {
+        "feature": "concave points error",
+        "min": 0.0,
+        "max": 0.05279,
+        "range": 0.05279
+      },
+      {
+        "feature": "symmetry error",
+        "min": 0.007882,
+        "max": 0.07895,
+        "range": 0.071068
+      },
+      {
+        "feature": "fractal dimension error",
+        "min": 0.0008948,
+        "max": 0.02984,
+        "range": 0.028945199999999997
+      },
+      {
+        "feature": "worst radius",
+        "min": 7.93,
+        "max": 36.04,
+        "range": 28.11
+      },
+      {
+        "feature": "worst texture",
+        "min": 12.02,
+        "max": 49.54,
+        "range": 37.519999999999996
+      },
+      {
+        "feature": "worst perimeter",
+        "min": 50.41,
+        "max": 251.2,
+        "range": 200.79
+      },
+      {
+        "feature": "worst area",
+        "min": 185.2,
+        "max": 4254.0,
+        "range": 4068.8
+      },
+      {
+        "feature": "worst smoothness",
+        "min": 0.07117,
+        "max": 0.2226,
+        "range": 0.15143
+      },
+      {
+        "feature": "worst compactness",
+        "min": 0.02729,
+        "max": 1.058,
+        "range": 1.03071
+      },
+      {
+        "feature": "worst concavity",
+        "min": 0.0,
+        "max": 1.252,
+        "range": 1.252
+      },
+      {
+        "feature": "worst concave points",
+        "min": 0.0,
+        "max": 0.291,
+        "range": 0.291
+      },
+      {
+        "feature": "worst symmetry",
+        "min": 0.1565,
+        "max": 0.6638,
+        "range": 0.5073
+      },
+      {
+        "feature": "worst fractal dimension",
+        "min": 0.05504,
+        "max": 0.2075,
+        "range": 0.15245999999999998
+      }
+    ]
+  },
+  "dataset_b": {
+    "name": "Digits",
+    "samples": 1797,
+    "features": 64,
+    "classes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "class_counts": {
+      "0": 178,
+      "1": 182,
+      "2": 177,
+      "3": 183,
+      "4": 181,
+      "5": 182,
+      "6": 181,
+      "7": 179,
+      "8": 174,
+      "9": 180
+    },
+    "image_shape": [
+      8,
+      8
+    ],
+    "feature_min": 0.0,
+    "feature_max": 16.0
+  }
+}
