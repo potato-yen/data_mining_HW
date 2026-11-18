@@ -1,0 +1,183 @@
+Dataset summary
+{
+  "records": 150,
+  "features": 4,
+  "class_names": [
+    "setosa",
+    "versicolor",
+    "virginica"
+  ],
+  "class_counts": [
+    50,
+    50,
+    50
+  ],
+  "split_random_state": 42,
+  "training_records": 112,
+  "test_records": 38
+}
+
+Original versus standardized trees
+{
+  "original": {
+    "root_feature": "petal width (cm)",
+    "root_threshold": 0.800000011920929,
+    "tree_depth": 3,
+    "leaf_nodes": 5,
+    "training_accuracy": 0.9821428571428571,
+    "test_accuracy": 0.9210526315789473,
+    "test_predictions": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      0,
+      2,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1
+    ]
+  },
+  "standardized": {
+    "root_feature": "petal width (cm)",
+    "root_threshold": -0.5134523957967758,
+    "tree_depth": 3,
+    "leaf_nodes": 5,
+    "training_accuracy": 0.9821428571428571,
+    "test_accuracy": 0.9210526315789473,
+    "test_predictions": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      0,
+      2,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1
+    ]
+  },
+  "predictions_identical": true
+}
+
+Training-size experiment
+ training_fraction  training_records     root_feature  root_threshold  tree_depth  leaf_nodes  test_accuracy
+               0.2                22 petal width (cm)             0.8           3           4       0.921053
+               0.4                44 petal width (cm)             0.7           3           4       0.921053
+               0.6                67 petal width (cm)             0.7           3           4       0.973684
+               0.8                89 petal width (cm)             0.8           3           5       0.921053
+               1.0               112 petal width (cm)             0.8           3           5       0.921053
+
+Original-feature tree rules
+|--- petal width (cm) <= 0.80
+|   |--- class: 0
+|--- petal width (cm) >  0.80
+|   |--- petal width (cm) <= 1.70
+|   |   |--- petal length (cm) <= 4.95
+|   |   |   |--- class: 1
+|   |   |--- petal length (cm) >  4.95
+|   |   |   |--- class: 2
+|   |--- petal width (cm) >  1.70
+|   |   |--- petal length (cm) <= 4.85
+|   |   |   |--- class: 1
+|   |   |--- petal length (cm) >  4.85
+|   |   |   |--- class: 2
+
+Standardized-feature tree rules
+|--- petal width (cm) <= -0.51
+|   |--- class: 0
+|--- petal width (cm) >  -0.51
+|   |--- petal width (cm) <= 0.66
+|   |   |--- petal length (cm) <= 0.67
+|   |   |   |--- class: 1
+|   |   |--- petal length (cm) >  0.67
+|   |   |   |--- class: 2
+|   |--- petal width (cm) >  0.66
+|   |   |--- petal length (cm) <= 0.61
+|   |   |   |--- class: 1
+|   |   |--- petal length (cm) >  0.61
+|   |   |   |--- class: 2
+
+Interpretation
+Standardization leaves the two trees' feature partitions and all test
+predictions unchanged; only the numerical thresholds are expressed on a new
+scale. This differs from Euclidean neighbors because Euclidean distance mixes
+differences across features, so feature scale changes the distance. The modest
+gap between training and test accuracy indicates some loss of generalization;
+a much larger gap would suggest overfitting. Across training sizes, petal width
+remains the root feature, but its threshold changes from 0.70 to 0.80 and the
+leaf count rises from four to five. Test accuracy peaks at the 60% subset and
+then falls back, so more data does not guarantee a deeper or more accurate tree.
+
+Synthesis (131 words)
+Standardization changed the numerical thresholds but not the
+selected features, partitions, predictions, or accuracy of the decision tree.
+This is consistent with how axis-aligned trees operate: a monotonic rescaling
+preserves the ordering of values within each feature. Euclidean-distance
+neighbors behave differently because feature scales directly change the
+combined distance. The original tree achieved 0.982 training accuracy and
+0.921 test accuracy, a small generalization gap; a much larger gap would
+suggest overfitting. Across stratified training subsets, petal width remained
+the root feature, although its threshold and the number of leaves changed.
+Test accuracy peaked with 60 percent of the training data and then returned
+to its earlier value. Thus, more data did not monotonically increase depth or
+accuracy. Sampling variation can change impurity-optimal splits, while the
+fixed depth limit constrains model complexity.

@@ -1,0 +1,25 @@
+Interpretation
+Standardization leaves the two trees' feature partitions and all test
+predictions unchanged; only the numerical thresholds are expressed on a new
+scale. This differs from Euclidean neighbors because Euclidean distance mixes
+differences across features, so feature scale changes the distance. The modest
+gap between training and test accuracy indicates some loss of generalization;
+a much larger gap would suggest overfitting. Across training sizes, petal width
+remains the root feature, but its threshold changes from 0.70 to 0.80 and the
+leaf count rises from four to five. Test accuracy peaks at the 60% subset and
+then falls back, so more data does not guarantee a deeper or more accurate tree.
+
+Synthesis (131 words)
+Standardization changed the numerical thresholds but not the
+selected features, partitions, predictions, or accuracy of the decision tree.
+This is consistent with how axis-aligned trees operate: a monotonic rescaling
+preserves the ordering of values within each feature. Euclidean-distance
+neighbors behave differently because feature scales directly change the
+combined distance. The original tree achieved 0.982 training accuracy and
+0.921 test accuracy, a small generalization gap; a much larger gap would
+suggest overfitting. Across stratified training subsets, petal width remained
+the root feature, although its threshold and the number of leaves changed.
+Test accuracy peaked with 60 percent of the training data and then returned
+to its earlier value. Thus, more data did not monotonically increase depth or
+accuracy. Sampling variation can change impurity-optimal splits, while the
+fixed depth limit constrains model complexity.

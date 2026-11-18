@@ -1,0 +1,134 @@
+\section*{3. Build a Decision Tree by Hand}
+
+若節點中正類與負類的比例為 $p_+$ 與 $p_-$，entropy 定義為
+\[
+  \entropy(S)=-p_+\log_2p_+-p_-\log_2p_-,
+\]
+其中 $0\log_2 0$ 視為零。
+
+\begin{enumerate}
+  \item 根節點包含 $(n_+,n_-)=(3,5)$，所以
+  \[
+    \entropy(S)=-\frac38\log_2\frac38-\frac58\log_2\frac58
+    =0.9544.
+  \]
+
+  \item 以 \emph{Height} 分割後，各子節點的類別數如下。
+  \begin{center}
+  \rowcolors{2}{lightrow}{white}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Height & $n_+$ & $n_-$ & Entropy & 加權貢獻 \\
+    \midrule
+    Short & 1 & 2 & 0.9183 & $(3/8)(0.9183)=0.3444$ \\
+    Tall  & 2 & 3 & 0.9710 & $(5/8)(0.9710)=0.6068$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  因此
+  \[
+    \entropy_{\text{Height}}=0.9512,
+    \qquad \operatorname{Gain}(S,\text{Height})=0.9544-0.9512=0.0032.
+  \]
+
+  \item 以 \emph{Eyes} 分割可得
+  \begin{center}
+  \rowcolors{2}{lightrow}{white}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Eyes & $n_+$ & $n_-$ & Entropy & 加權貢獻 \\
+    \midrule
+    Brown & 0 & 3 & 0      & $(3/8)(0)=0$ \\
+    Blue  & 3 & 2 & 0.9710 & $(5/8)(0.9710)=0.6068$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  所以
+  \[
+    \entropy_{\text{Eyes}}=0.6068,
+    \qquad \operatorname{Gain}(S,\text{Eyes})=0.3476.
+  \]
+
+  \item 對 nominal attribute \emph{Hair} 採用三路分割。
+  \begin{center}
+  \rowcolors{2}{lightrow}{white}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Hair & $n_+$ & $n_-$ & Entropy & 加權貢獻 \\
+    \midrule
+    Blond & 2 & 2 & 1 & $(4/8)(1)=0.5000$ \\
+    Dark  & 0 & 3 & 0 & $(3/8)(0)=0$ \\
+    Red   & 1 & 0 & 0 & $(1/8)(0)=0$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  因此
+  \[
+    \entropy_{\text{Hair}}=0.5000,
+    \qquad \operatorname{Gain}(S,\text{Hair})=0.4544.
+  \]
+
+  \item Hair 的 impurity reduction 最大：
+  \[
+  \begin{array}{c|ccc}
+    \text{attribute} & \text{Height} & \text{Eyes} & \text{Hair}\\ \hline
+    \text{gain} & 0.0032 & 0.3476 & \mathbf{0.4544}
+  \end{array}
+  \]
+  因此 Hunt's algorithm 在根節點選擇 \textbf{Hair}。
+
+  \item Dark 子節點為 $(0+,3-)$，已是純負類葉節點；Red 子節點為
+  $(1+,0-)$，已是純正類葉節點。只有 Blond 子節點包含 $(2+,2-)$，
+  entropy 為 1，仍需繼續分割。此節點剩餘的候選屬性如下：
+
+  \begin{center}
+  \rowcolors{2}{lightrow}{white}
+  \begin{tabularx}{0.94\linewidth}{lXc}
+    \toprule
+    Blond 內的分割 & 子節點類別數 & 加權 entropy \\
+    \midrule
+    Height & Short $(1+,1-)$；Tall $(1+,1-)$
+           & $(2/4)(1)+(2/4)(1)=1$ \\
+    Eyes & Brown $(0+,2-)$；Blue $(2+,0-)$
+         & $(2/4)(0)+(2/4)(0)=0$ \\
+    \bottomrule
+  \end{tabularx}
+  \end{center}
+
+  Eyes 的 gain 為 $1-0=1$，且能使兩個子節點皆為純節點。最終決策樹如下，
+  每個葉節點均標示預測類別。
+
+  \begin{center}
+  \fbox{\begin{minipage}{0.70\linewidth}
+  \ttfamily
+  Hair?\\
+  \hspace*{1.5em}|-- Dark $\longrightarrow$ 預測 $-$\\
+  \hspace*{1.5em}|-- Red  $\longrightarrow$ 預測 $+$\\
+  \hspace*{1.5em}`-- Blond $\longrightarrow$ Eyes?\\
+  \hspace*{5.0em}|-- Brown $\longrightarrow$ 預測 $-$\\
+  \hspace*{5.0em}`-- Blue  $\longrightarrow$ 預測 $+$
+  \end{minipage}}
+  \end{center}
+
+  \item 將四筆測試資料套用至決策樹，可得：
+  \begin{center}
+  \rowcolors{2}{lightrow}{white}
+  \begin{tabular}{clllcc}
+    \toprule
+    \# & Height & Hair & Eyes & 實際類別 & 預測類別 \\
+    \midrule
+    1 & Short & Dark & Brown & $+$ & $-$ \\
+    2 & Short & Red  & Brown & $-$ & $+$ \\
+    3 & Short & Red  & Blue  & $+$ & $+$ \\
+    4 & Tall  & Red  & Brown & $+$ & $+$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  四筆資料中有兩筆預測正確，因此
+  \[
+    \text{accuracy}=\frac24=0.50=50\%,\qquad
+    \text{error rate}=1-0.50=0.50=50\%.
+  \]
+\end{enumerate}
+
+\clearpage

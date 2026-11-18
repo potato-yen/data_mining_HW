@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\setCJKmainfont{Songti TC}
+\setCJKsansfont{Heiti TC}
+\setCJKmonofont{Heiti TC}
+\xeCJKsetup{CJKecglue=\hskip 0.12em plus 0.05em minus 0.05em}
+
+\definecolor{accent}{HTML}{315A7D}
+\definecolor{lightrow}{HTML}{EEF3F7}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist[enumerate]{label=\arabic*),leftmargin=2.1em,itemsep=0.8em}
+\renewcommand{\arraystretch}{1.22}
+\graphicspath{{../figures/}}
+
+\newcommand{\answer}[1]{\textcolor{accent}{\textbf{答案：}}#1}
+\newcommand{\entropy}{\operatorname{H}}
+
+\begin{document}
+
+\input{sections/q1_zh.tex}
+\input{sections/q2_zh.tex}
+\input{sections/q3_zh.tex}
+\input{sections/q4_zh.tex}
+
+\section*{Generative AI disclosure}
+本報告使用 OpenAI Codex 協助整理分析架構、撰寫 Python實驗，以及進行 LaTeX 排版。
+
+\end{document}

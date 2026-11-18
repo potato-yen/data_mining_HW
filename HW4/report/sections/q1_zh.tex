@@ -1,0 +1,33 @@
+\section*{1. Choosing a Proximity Measure}
+
+\begin{enumerate}
+  \item \answer{Jaccard similarity。}
+  將每位使用者的向量視為「曾購買商品」的集合，Jaccard similarity 定義為
+  \[
+    J(A,B)=\frac{|A\cap B|}{|A\cup B|}.
+  \]
+  兩位使用者都沒有購買的商品不會出現在聯集內，因此共同缺席不會提高相似度。
+  這正符合 asymmetric binary attribute 的需求。
+
+  \item \answer{Cosine similarity。}
+  Cosine similarity 衡量兩個詞頻向量之間的夾角：
+  \[
+    \cos(\mathbf{x},\mathbf{y})=
+    \frac{\mathbf{x}^{\mathsf T}\mathbf{y}}
+         {\lVert\mathbf{x}\rVert_2\lVert\mathbf{y}\rVert_2}.
+  \]
+  它重視詞彙使用比例是否相近。若其中一篇文章只是整體較長，使所有詞頻同倍率增加，
+  向量方向仍不變，因此相似度不受總篇幅明顯影響；此方法也適合 sparse vector。
+
+  \item \answer{標準化後的 Euclidean distance。}
+  Euclidean distance 能反映年齡、體重與醫療支出的整體幾何距離，但原始尺度差異會讓
+  數值較大的醫療支出主導結果。因此，我會先以訓練資料的平均數與標準差計算
+  $z$-score，再於標準化空間中計算 Euclidean distance。
+
+  \item \answer{Pearson correlation。}
+  Pearson correlation 比較中心化並標準化後的變動。較高的 baseline 會由中心化消除，
+  較大的正向 amplitude 則由尺度標準化消除。因此，兩段訊號即使基準值與振幅不同，
+  只要形狀及趨勢一致，相關係數仍可接近 1。
+\end{enumerate}
+
+\clearpage
