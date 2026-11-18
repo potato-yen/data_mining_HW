@@ -1,0 +1,51 @@
+# Agent working files
+AGENTS.md
+job.md
+*superpowers/
+.agents/
+.codex/
+
+# Local environments, caches and temporary files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.uv-cache/
+tmp/
+.DS_Store
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# LaTeX intermediates
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+
+# Local fonts and TeX packages
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.sty
+*.cls
+texmf/
