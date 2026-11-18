@@ -1,0 +1,77 @@
+\clearpage
+
+\begin{center}
+  {\color{accent}\large PART 5}\par
+  \vspace{0.25em}
+  {\Large\bfseries KNN $\times$ Decision Tree 統整比較}\par
+\end{center}
+
+\vspace{1.0em}
+
+\section*{1. How the Two Models Classify}
+\sectionrule
+
+KNN 會先用全部四個 features 計算 test object 與 training objects 的距離，再讓最近的 5 個鄰居進行 majority vote。它不會整理出一套明確的全域規則，因此 prediction 很依賴 proximity 如何定義，也會受到各 feature 數值尺度的影響。
+
+Decision Tree 的做法不同。它會在 training data 上逐層選擇一個 attribute 與 threshold，讓切分後的 class 越來越單純。新的 object 從 root 開始，沿著 branches 一路走到 leaf，再由 leaf 給出預測結果。這棵樹的第一個條件是 \dataterm{flipper\_length\_mm}$\leq206.5$；KNN 會同時計算四維距離，tree 每一步則只檢查一個條件。
+
+\section*{2. Proximity and Preprocessing Effects on KNN}
+\sectionrule
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{3.8cm}L{2.6cm}Yrr}
+\toprule
+\textbf{KNN setting} & \textbf{Scaling} & \textbf{Proximity} & \textbf{Correct} & \textbf{Accuracy} \\
+\midrule
+Raw Euclidean & 無 & Euclidean & 51 / 69 & 73.91\% \\
+Z-score Euclidean & StandardScaler & Euclidean & 69 / 69 & 100.00\% \\
+Z-score Manhattan & StandardScaler & Manhattan & 69 / 69 & 100.00\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Raw Euclidean 直接把四個 feature 的原始數值放進距離計算。由於 body mass 以 g 表示，數值範圍遠大於三個 mm features，很容易主導最後的距離。做完 Z-score 後，每個 feature 都改用各自的標準差衡量，喙部與鰭肢資訊也能更合理地參與鄰居選擇，accuracy 因而從 73.91\% 提高到 100\%。在相同的 Z-score 下，Euclidean 與 Manhattan 對這組 test set 產生完全相同的 predictions。就這次結果而言，scaling 帶來的影響最明顯，$L_1$ 和 $L_2$ 的差別則沒有反映在最終分類上。
+
+\section*{3. How Decision Tree Reacts to the Same Data Scale}
+\sectionrule
+
+Decision Tree 使用單一 feature 的排序與 threshold 進行 split，不會把四個 features 的原始數值直接加在一起。正向線性 scaling 會改變 threshold 顯示的數值，但 feature 中各筆觀測的先後次序仍然相同，所以它通常不會像 KNN 一樣，因為單位大小不同就改變分類方式。
+
+結果也呈現出這項差異：同樣使用 raw features，KNN 的 accuracy 是 73.91\%，Decision Tree 則達到 98.55\%。我不會因此認定 tree 在所有資料上都比較好；比較合理的解讀是，這份資料的原始尺度明顯影響 distance-based KNN，而 threshold-based tree 仍能直接利用 flipper length 與 culmen measurements 的切點。對 tree 來說，maximum depth、葉節點最少樣本數和 training data 的變動，才是更直接影響模型結構的因素。
+
+\section*{4. Accuracy and Representative Error Patterns}
+\sectionrule
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{YrrL{5.7cm}}
+\toprule
+\textbf{Model} & \textbf{Correct} & \textbf{Accuracy} & \textbf{Errors shown by confusion matrix} \\
+\midrule
+Raw Euclidean KNN & 51 / 69 & 73.91\% & Chinstrap $\rightarrow$ Adelie 12；Adelie $\rightarrow$ Chinstrap 4；Gentoo $\rightarrow$ Adelie 2 \\
+Z-score Euclidean KNN & 69 / 69 & 100.00\% & 無 \\
+Decision Tree, depth 3 & 68 / 69 & 98.55\% & Chinstrap $\rightarrow$ Adelie 1 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Z-score KNN 在這組 split 上將 69 筆全部判對，Decision Tree 只多錯 1 筆。不過從模型行為來看，兩者走的是完全不同的路：Tree 用少量且可閱讀的規則完成分類，KNN 則在適當 scaling 後，依靠局部鄰居得到 100\%。Raw KNN 的 confusion matrix 進一步顯示，主要問題是 Adelie 與 Chinstrap 的雙向混淆，而且 Chinstrap 受影響最嚴重；Tree 則把相同類型的錯誤縮小到 1 筆。
+
+\section*{5. Why Accuracy Alone Is Not Enough}
+\sectionrule
+
+Accuracy 把所有正確筆數濃縮成一個比例，確實很適合快速比較整體表現，但它不會告訴我錯的是哪個 class，也看不出實際 class 被預測成了什麼。當資料中的類別比例不平均時，少數類別的問題甚至可能被整體 accuracy 蓋過去。Confusion matrix 保留了 actual 與 predicted class 的方向，所以能看出 Raw KNN 的錯誤主要集中在 Chinstrap，也能分清楚 Chinstrap $\rightarrow$ Adelie 與 Adelie $\rightarrow$ Chinstrap 是兩種不同的錯誤。
+
+即使兩個模型的 accuracy 相同，錯誤也可能分布得完全不一樣：一個模型平均錯在各個類別，另一個模型可能幾乎都錯在同一個 class。Part 4 的深度 2 與深度 3 除了 accuracy 相同，confusion matrix 和逐筆 predictions 也完全一致，因此我才會認為它們在這個 test set 上的錯誤型態相同。
+
+\section*{6. Conclusion and Discussion Question}
+\sectionrule
+
+做完整份作業後，我覺得 Chapter 2 的 data concepts 和 classification 其實連得很直接。Feature selection 決定模型能看見哪些資訊，data quality 影響輸入是否可靠，train/test split 則讓我能用模型沒參與訓練的資料檢查表現。至於 preprocessing 是否重要，還要看演算法怎麼使用 attributes。KNN 會把 features 組合成距離，所以 scaling 本身就是模型設計的一部分；Decision Tree 依靠單一 attribute 的 threshold 切分，對原始單位較不敏感，但仍然需要控制樹的複雜度。
+
+我最後不會只根據這 69 筆 test data，選出一個「永遠最好」的模型。這次比較真正讓我看到的是，同一份資料交給不同演算法後，KNN 會從「哪些資料彼此接近」出發，Decision Tree 則會尋找「哪些條件最能把類別分開」。把 accuracy、confusion matrix 與模型結構放在一起看，才比較能說清楚結果為什麼會不同。
+
+\textbf{課堂討論問題：}如果未來資料中的 Chinstrap 比例明顯降低，整體 accuracy 可能仍然很高；此時應如何調整評估方式，才能避免忽略少數物種的辨識品質？

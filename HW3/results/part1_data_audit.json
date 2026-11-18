@@ -1,0 +1,116 @@
+{
+  "source_file": "penguins_raw.csv",
+  "raw_shape": {
+    "rows": 344,
+    "columns": 17
+  },
+  "selected_features": [
+    "culmen_length_mm",
+    "culmen_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g"
+  ],
+  "label": "species",
+  "missing_counts_raw": {
+    "studyName": 0,
+    "Sample Number": 0,
+    "Species": 0,
+    "Region": 0,
+    "Island": 0,
+    "Stage": 0,
+    "Individual ID": 0,
+    "Clutch Completion": 0,
+    "Date Egg": 0,
+    "Culmen Length (mm)": 2,
+    "Culmen Depth (mm)": 2,
+    "Flipper Length (mm)": 2,
+    "Body Mass (g)": 2,
+    "Sex": 11,
+    "Delta 15 N (o/oo)": 14,
+    "Delta 13 C (o/oo)": 13,
+    "Comments": 290
+  },
+  "incomplete_selected_feature_rows": [
+    {
+      "source_row": 5,
+      "studyName": "PAL0708",
+      "Sample Number": 4,
+      "Species": "Adelie Penguin (Pygoscelis adeliae)",
+      "Individual ID": "N2A2",
+      "Culmen Length (mm)": null,
+      "Culmen Depth (mm)": null,
+      "Flipper Length (mm)": null,
+      "Body Mass (g)": null
+    },
+    {
+      "source_row": 273,
+      "studyName": "PAL0910",
+      "Sample Number": 120,
+      "Species": "Gentoo penguin (Pygoscelis papua)",
+      "Individual ID": "N38A2",
+      "Culmen Length (mm)": null,
+      "Culmen Depth (mm)": null,
+      "Flipper Length (mm)": null,
+      "Body Mass (g)": null
+    }
+  ],
+  "full_row_duplicate_count": 0,
+  "duplicate_complete_feature_vector_count": 0,
+  "iqr_audit": {
+    "Culmen Length (mm)": {
+      "observed_min": 32.1,
+      "observed_max": 59.6,
+      "q1": 39.225,
+      "q3": 48.5,
+      "lower_bound": 25.312500000000004,
+      "upper_bound": 62.412499999999994,
+      "outlier_count": 0
+    },
+    "Culmen Depth (mm)": {
+      "observed_min": 13.1,
+      "observed_max": 21.5,
+      "q1": 15.6,
+      "q3": 18.7,
+      "lower_bound": 10.95,
+      "upper_bound": 23.349999999999998,
+      "outlier_count": 0
+    },
+    "Flipper Length (mm)": {
+      "observed_min": 172.0,
+      "observed_max": 231.0,
+      "q1": 190.0,
+      "q3": 213.0,
+      "lower_bound": 155.5,
+      "upper_bound": 247.5,
+      "outlier_count": 0
+    },
+    "Body Mass (g)": {
+      "observed_min": 2700.0,
+      "observed_max": 6300.0,
+      "q1": 3550.0,
+      "q3": 4750.0,
+      "lower_bound": 1750.0,
+      "upper_bound": 6550.0,
+      "outlier_count": 0
+    }
+  },
+  "class_counts_raw": {
+    "Adelie": 152,
+    "Gentoo": 124,
+    "Chinstrap": 68
+  },
+  "class_counts_prepared": {
+    "Adelie": 151,
+    "Gentoo": 123,
+    "Chinstrap": 68
+  },
+  "prepared_shape": {
+    "rows": 342,
+    "model_columns": 5,
+    "trace_columns": 1
+  },
+  "preprocessing_deferred": [
+    "train_test_split",
+    "feature_scaling fitted on training data only"
+  ]
+}

@@ -1,0 +1,141 @@
+\begin{center}
+  {\color{accent}\large PART 1}\par
+  \vspace{0.25em}
+  {\Large\bfseries Prepare the Data for Classification}\par
+\end{center}
+
+\vspace{0.8em}
+
+\section*{1. Classification Task}
+\sectionrule
+
+我使用 \dataterm{penguins\_raw.csv} 中的資料進行多類別分類。資料裡的每一列都可以看成一個 data object，代表一隻接受觀測的成年企鵝，記錄了採樣地點、時間、身體測量值與實驗資訊。原始資料共有 344 筆觀測與 17 個欄位。
+
+要預測的 class label 是 \dataterm{Species}，共有 Adelie、Chinstrap 與 Gentoo 三個類別。模型會根據企鵝的身體測量值，判斷它屬於哪一個物種。後面的 KNN 與 Decision Tree 都會沿用這裡選出的 features，也會共用同一組 train/test split，讓兩個模型可以在相同基準下比較。
+
+\section*{2. Feature Selection}
+\sectionrule
+
+\subsection*{納入的 features}
+
+我最後選了四個 numerical attributes。這些欄位都直接描述企鵝的外部形態，單位清楚，在進行分類時也合理可取得。另一方面，四個欄位的數值尺度並不相同，剛好可以在 Part 2 觀察 proximity 與 scaling 會如何影響 KNN。
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{4.0cm}L{2.2cm}Y}
+\toprule
+\textbf{原始欄位} & \textbf{型態／單位} & \textbf{納入理由} \\
+\midrule
+Culmen Length (mm) & numerical / mm & 喙長是物種形態差異的重要描述。 \\
+Culmen Depth (mm) & numerical / mm & 喙深與喙長互補，可協助區分相近物種。 \\
+Flipper Length (mm) & numerical / mm & 鰭肢長反映體型與物種形態。 \\
+Body Mass (g) & numerical / g & 體重提供整體體型資訊，但尺度明顯大於毫米欄位。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\pagestyle{fancy}
+\subsection*{未納入的 attributes}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{4.2cm}Y}
+\toprule
+\textbf{欄位} & \textbf{排除理由} \\
+\midrule
+Species & 要預測的 label，不可同時作為 feature。 \\
+studyName、Sample Number、Individual ID & 採樣與識別資訊；代碼本身沒有可泛化的生物意義，也可能使模型記住研究批次。 \\
+Region、Stage & 兩欄在資料中各只有一個值，沒有分類資訊。 \\
+Island & 地點與物種分布高度相關，容易形成 location shortcut；這裡希望模型根據企鵝本身的形態分類，因此排除。 \\
+Clutch Completion、Date Egg & 繁殖與採樣時間資訊，和個體形態分類的目的較遠。 \\
+Sex & 有 11 筆缺失，且為 categorical attribute。Part 2 將專注比較 numerical proximity 與 scaling，所以不納入。 \\
+Delta 15 N、Delta 13 C & 分別缺失 14 與 13 筆，且依賴實驗室分析；不一定是實際分類時可立即取得的資訊。 \\
+Comments & 自由文字採樣備註，290 筆缺失，內容也不是穩定的個體特徵。 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section*{3. Data Quality}
+\sectionrule
+
+\subsection*{Missing values}
+
+原始 CSV 使用字串 \dataterm{NA} 表示缺失。我檢查後發現 label 沒有缺失；四個入選 features 則各缺 2 筆，而且都集中在相同的兩筆觀測：一筆 Adelie 與一筆 Gentoo 都缺少全部四個形態測量值。這 2 筆只占原始資料的 $2/344=0.58\%$，也沒有任何可用的形態資訊，因此我直接刪除這兩筆資料，不用四個平均數拼出一組虛構的個體形態。
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+\textbf{欄位群組} & \textbf{缺失筆數} & \textbf{處理} \\
+\midrule
+四個入選形態欄位 & 各 2 & 刪除共同缺失的 2 筆觀測 \\
+Sex & 11 & 欄位未納入 \\
+Delta 15 N / Delta 13 C & 14 / 13 & 欄位未納入 \\
+Comments & 290 & 欄位未納入 \\
+其餘欄位 & 0 & 無須處理 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Outliers}
+
+我用 Tukey rule 檢查四個入選 features：低於 $Q_1-1.5\,IQR$ 或高於 $Q_3+1.5\,IQR$ 的數值會先列為待檢查離群值。檢查結果顯示，四個欄位的觀測範圍都落在界線內，沒有發現離群值。因此這部分不刪除資料，也不需要 clipping 或 winsorization。
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Feature} & \textbf{觀測範圍} & \textbf{IQR 合理範圍} & \textbf{離群筆數} \\
+\midrule
+Culmen Length (mm) & 32.1--59.6 & 25.31--62.41 & 0 \\
+Culmen Depth (mm) & 13.1--21.5 & 10.95--23.35 & 0 \\
+Flipper Length (mm) & 172--231 & 155.5--247.5 & 0 \\
+Body Mass (g) & 2700--6300 & 1750--6550 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Duplicate and inconsistent values}
+
+我也針對重複值做了兩層檢查。先比較完整 17 欄，沒有發現完全重複的紀錄；刪除缺失列後，四個形態 features 也沒有相同的 feature vector。\dataterm{Individual ID} 單獨看會在不同研究批次中重複，所以不能把它當成整份資料的唯一鍵；改用 \dataterm{studyName + Species + Individual ID} 檢查後則沒有重複。這也進一步支持把識別欄位排除在模型之外。
+
+類別值沒有前後空白或同義拼寫混用，但原始 \dataterm{Species} 的英文大小寫格式不一致，例如 ``Adelie Penguin'' 與 ``Gentoo penguin''。為了讓 label 簡潔一致，我將它們整理成 \dataterm{Adelie}、\dataterm{Chinstrap} 與 \dataterm{Gentoo}。這一步只統一顯示名稱，沒有合併或改變任何類別。
+
+\section*{4. Final Data Preparation}
+\sectionrule
+
+整理資料時，我依序進行了以下步驟：
+
+\begin{enumerate}[leftmargin=1.7em,itemsep=0.35em]
+  \item 將原始字串 \dataterm{NA} 解析為 missing value。
+  \item 明確選取四個形態 features 與 \dataterm{Species} label。
+  \item 刪除四個入選 features 任一缺失的觀測，共 2 筆。
+  \item 將三個物種 label 標準化為簡短且一致的名稱。
+  \item 保留數值的原始單位，輸出 342 筆可供分類使用的資料。
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{最終資料摘要} & \textbf{結果} \\
+\midrule
+可用觀測數 & 342 \\
+Adelie & 151 \\
+Chinstrap & 68 \\
+Gentoo & 123 \\
+Features & 4 個 numerical attributes \\
+Label & species（3 classes） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+整理後的 feature matrix $X$ 包含 \dataterm{culmen\_length\_mm}、\dataterm{culmen\_depth\_mm}、\dataterm{flipper\_length\_mm} 與 \dataterm{body\_mass\_g}；target vector $y$ 為 \dataterm{species}。輸出檔另外保留 \dataterm{source\_row}，方便日後回頭查找原始 CSV 的資料列，但這個欄位不會輸入模型。
+
+這個階段我先保留所有 feature 的原始單位，不做 scaling。Body Mass 的數值尺度遠大於其餘三欄，正好可以留到 Part 2 比較 preprocessing 前後的差異。進行 scaling 時，scaler 只會用 training set 擬合，再套用到 test set，避免 data leakage；train/test split、標準化與模型訓練也都留到 Part 2 一起處理。

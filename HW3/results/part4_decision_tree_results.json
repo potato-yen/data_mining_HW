@@ -1,0 +1,121 @@
+{
+  "data_file": "penguins_classification.csv",
+  "split_file": "train_test_split.csv",
+  "features": [
+    "culmen_length_mm",
+    "culmen_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g"
+  ],
+  "label": "species",
+  "class_order": [
+    "Adelie",
+    "Chinstrap",
+    "Gentoo"
+  ],
+  "split": {
+    "train_rows": 273,
+    "test_rows": 69
+  },
+  "main_model": {
+    "criterion": "gini",
+    "max_depth": 3,
+    "random_state": 42,
+    "tree_depth": 3,
+    "leaf_count": 7,
+    "node_count": 13,
+    "root_feature": "flipper_length_mm",
+    "root_threshold": 206.5,
+    "correct_predictions": 68,
+    "incorrect_predictions": 1,
+    "accuracy": 0.9855072463768116,
+    "error_rate": 0.01449275362318836,
+    "confusion_matrix": [
+      [
+        30,
+        0,
+        0
+      ],
+      [
+        1,
+        13,
+        0
+      ],
+      [
+        0,
+        0,
+        25
+      ]
+    ]
+  },
+  "comparison_model": {
+    "criterion": "gini",
+    "max_depth": 2,
+    "random_state": 42,
+    "tree_depth": 2,
+    "leaf_count": 4,
+    "node_count": 7,
+    "root_feature": "flipper_length_mm",
+    "root_threshold": 206.5,
+    "correct_predictions": 68,
+    "incorrect_predictions": 1,
+    "accuracy": 0.9855072463768116,
+    "error_rate": 0.01449275362318836,
+    "confusion_matrix": [
+      [
+        30,
+        0,
+        0
+      ],
+      [
+        1,
+        13,
+        0
+      ],
+      [
+        0,
+        0,
+        25
+      ]
+    ]
+  },
+  "sample_prediction_path": {
+    "source_row": 3,
+    "actual": "Adelie",
+    "features": {
+      "culmen_length_mm": 39.5,
+      "culmen_depth_mm": 17.4,
+      "flipper_length_mm": 186.0,
+      "body_mass_g": 3800.0
+    },
+    "steps": [
+      {
+        "node_id": 0,
+        "feature": "flipper_length_mm",
+        "value": 186.0,
+        "operator": "<=",
+        "threshold": 206.5,
+        "next_node": 1
+      },
+      {
+        "node_id": 1,
+        "feature": "culmen_length_mm",
+        "value": 39.5,
+        "operator": "<=",
+        "threshold": 43.35000038146973,
+        "next_node": 2
+      },
+      {
+        "node_id": 2,
+        "feature": "culmen_length_mm",
+        "value": 39.5,
+        "operator": "<=",
+        "threshold": 42.30000114440918,
+        "next_node": 3
+      }
+    ],
+    "leaf_id": 3,
+    "predicted": "Adelie",
+    "correct": true
+  }
+}

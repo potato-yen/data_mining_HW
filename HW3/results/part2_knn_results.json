@@ -1,0 +1,152 @@
+{
+  "data_file": "penguins_classification.csv",
+  "rows": 342,
+  "features": [
+    "culmen_length_mm",
+    "culmen_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g"
+  ],
+  "label": "species",
+  "split": {
+    "method": "stratified train_test_split",
+    "test_size": 0.2,
+    "random_state": 42,
+    "train_rows": 273,
+    "test_rows": 69,
+    "train_class_counts": {
+      "Adelie": 121,
+      "Chinstrap": 54,
+      "Gentoo": 98
+    },
+    "test_class_counts": {
+      "Adelie": 30,
+      "Chinstrap": 14,
+      "Gentoo": 25
+    }
+  },
+  "experiments": [
+    {
+      "setting_id": "raw_euclidean",
+      "label": "Raw Euclidean",
+      "features": [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+      ],
+      "k": 5,
+      "weights": "uniform",
+      "scaling": "None",
+      "metric": "Euclidean (Minkowski p=2)",
+      "correct_predictions": 51,
+      "incorrect_predictions": 18,
+      "accuracy": 0.7391304347826086,
+      "error_rate": 0.26086956521739135,
+      "confusion_matrix": [
+        [
+          26,
+          4,
+          0
+        ],
+        [
+          12,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          23
+        ]
+      ],
+      "class_order": [
+        "Adelie",
+        "Chinstrap",
+        "Gentoo"
+      ]
+    },
+    {
+      "setting_id": "zscore_euclidean",
+      "label": "Z-score Euclidean",
+      "features": [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+      ],
+      "k": 5,
+      "weights": "uniform",
+      "scaling": "StandardScaler",
+      "metric": "Euclidean (Minkowski p=2)",
+      "correct_predictions": 69,
+      "incorrect_predictions": 0,
+      "accuracy": 1.0,
+      "error_rate": 0.0,
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          25
+        ]
+      ],
+      "class_order": [
+        "Adelie",
+        "Chinstrap",
+        "Gentoo"
+      ]
+    },
+    {
+      "setting_id": "zscore_manhattan",
+      "label": "Z-score Manhattan",
+      "features": [
+        "culmen_length_mm",
+        "culmen_depth_mm",
+        "flipper_length_mm",
+        "body_mass_g"
+      ],
+      "k": 5,
+      "weights": "uniform",
+      "scaling": "StandardScaler",
+      "metric": "Manhattan (Minkowski p=1)",
+      "correct_predictions": 69,
+      "incorrect_predictions": 0,
+      "accuracy": 1.0,
+      "error_rate": 0.0,
+      "confusion_matrix": [
+        [
+          30,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          25
+        ]
+      ],
+      "class_order": [
+        "Adelie",
+        "Chinstrap",
+        "Gentoo"
+      ]
+    }
+  ],
+  "representative_setting": "raw_euclidean",
+  "representative_reason": "Its errors make the effect of unequal raw feature scales visible."
+}
