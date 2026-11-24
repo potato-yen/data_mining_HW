@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+.uv-cache/
+tmp/
+output/pdf/*.log
+output/pdf/*.aux

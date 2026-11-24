@@ -1,0 +1,23 @@
+{
+  "candidate_rows": 18,
+  "weight_rows": 20,
+  "prediction_rows": 4,
+  "source_sha256": "0a59dd16bdacae86604cc1e5db8f24de575b26198dc769c977d16b25112ecdff",
+  "pdfs": {
+    "worksheet": {
+      "pages": 4,
+      "bytes": 96788,
+      "sha256": "cb71d5df1aeb20a5eab6f1ec855730ecb9fd3522cae401ca2b3aedd1bbbd88d6",
+      "numeric_text_check": true,
+      "embedded_font_stream": true
+    },
+    "main": {
+      "pages": 5,
+      "bytes": 141550,
+      "sha256": "ef14dc4586359343e0b42ffdf7061953c13f6bb1614c2b46311e3551efba7b66",
+      "numeric_text_check": true,
+      "embedded_font_stream": true
+    }
+  },
+  "visual_inspection": "Recorded separately in docs/verification.md"
+}

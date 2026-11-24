@@ -1,0 +1,60 @@
+\input{preamble.tex}
+\begin{document}
+\begin{center}
+{\Large\bfseries HW6 AdaBoost 計算說明}\par
+固定抽樣與原始樣本加權誤差
+\end{center}
+本報告依學習單完成三輪 AdaBoost 計算，選出的分類器依序為 A、E、D。
+
+四筆新資料的預測依序為 $-1,+1,-1,+1$。
+以下保留資料、選擇過程及權重更新，供逐項核對。
+
+\section*{一、原始訓練資料}
+\begin{center}
+\captionof{table}{題目指定的十筆訓練資料}\label{tab:training}
+\begin{tabular}{rrrrrrrrrrr}\toprule
+ID & 1&2&3&4&5&6&7&8&9&10\\
+$x$ & 1&2&3&4&5&6&7&8&9&10\\
+$y$ & $-1$&$-1$&$-1$&$-1$&$+1$&$+1$&$+1$&$-1$&$-1$&$+1$\\
+\bottomrule\end{tabular}
+\end{center}
+表\ref{tab:training} 的類別隨 $x$ 有多次轉換，單一 stump 無法將全部樣本分對。
+
+\section*{二、候選規則與計算方式}
+只使用切分點 4.5、7.5、9.5，各搭配兩種左右側標籤，共 A--F 六個規則，
+詳見各輪候選規則表。每輪先在固定抽樣集比較未加權錯誤筆數；
+若同一 ID 抽到多次，每次都計入。選定 $h_t$ 後，才在原始十筆資料計算
+\begin{align*}
+\epsilon_t&=\sum_{i=1}^{10}w_i^{(t)}\,I\{y_i\ne h_t(x_i)\}, &
+\alpha_t&=\frac12\ln\frac{1-\epsilon_t}{\epsilon_t},\\
+u_i&=w_i^{(t)}\exp[-\alpha_t y_i h_t(x_i)], &
+w_i^{(t+1)}&=\frac{u_i}{\sum_{j=1}^{10}u_j}.
+\end{align*}
+如此可保留完整的權重分布，不以有限次抽樣的錯誤比例取代加權錯誤率。
+本題各輪均有唯一最佳規則；程式在候選同分時依 A--F 順序選第一個，
+投票若恰為零則回傳 0，此兩項慣例皆未影響本例結果。
+
+\textbf{精度與重現：}中間使用 Python 雙精度浮點數，表格顯示六位小數；
+公式中的分數用於核對精確值。固定抽樣清單由題目給定，不重新抽樣，
+因此結果不依賴亂數種子。資料、候選及結果儲存於 \texttt{results/adaboost.json}。
+\clearpage
+\input{sections/round1.tex}
+\clearpage
+\input{sections/round2.tex}
+\clearpage
+\input{sections/round3.tex}
+\input{sections/predictions.tex}
+\clearpage
+\input{sections/questions.tex}
+\section*{八、重現與驗證}
+在 HW6 目錄執行 \texttt{uv run python src/adaboost.py} 即可重建 CSV、JSON、
+console 摘要及報告的計算分節，再於 \texttt{report/} 執行 tectonic 編譯兩份 PDF。
+完整指令與驗收對照見 \texttt{README.md} 及 \texttt{docs/verification.md}。
+
+自動化測試以手算分數核對三輪加權誤差、分類器權重與樣本權重，
+並檢查重複抽樣、切分點等號、權重傳遞及四筆投票。
+PDF 的可讀性與版面另以實際渲染圖片檢查；自動化數值測試不代表版面已驗證。
+
+\textbf{工具使用說明：}本作業使用 OpenAI Codex 協助撰寫 Python 計算、
+核對結果及編排 LaTeX；原始學習單保留不變，未使用外部資料或隨機實驗。
+\end{document}

@@ -1,0 +1,6 @@
+[project]
+name = "hw6-adaboost"
+version = "0.1.0"
+description = "Reproducible fixed-sample AdaBoost worksheet"
+requires-python = ">=3.12"
+dependencies = []
